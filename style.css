@@ -22,3 +22,22 @@ body {
 
 }
 
+section{
+  position: absolute;
+  background: black;
+  top: 0;
+  inset: 0;
+  display: grid;
+  font-size: 30px;
+  place-content: center;
+}
+
+section h1{
+  cursor: pointer;
+}
+
+p, p span{
+  margin: 0;
+  top: 0;
+  font-size: larger;
+}

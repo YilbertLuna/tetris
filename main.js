@@ -240,4 +240,12 @@ function removeRows() {
 
 }
 
-upDate()
+const startGame = document.querySelector('section')
+
+startGame.addEventListener('click', () => {
+
+  upDate()
+
+  startGame.remove()
+
+})
