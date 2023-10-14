@@ -37,7 +37,7 @@ const map = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1],
+  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
 ]
 
 // create the piece
@@ -50,6 +50,28 @@ const piece = {
   ]
 
 }
+
+// create pieces
+
+const PIECES = [
+  [
+    [1, 1, 1, 1]
+  ],
+  [
+    [1, 0],
+    [1, 0],
+    [1, 1]
+  ],
+  [
+    [1, 0],
+    [1, 1],
+    [0, 1]
+  ],
+  [
+    [1, 1, 1],
+    [0, 1, 0]
+  ]
+]
 
 function upDate() {
 
@@ -106,6 +128,23 @@ document.addEventListener('keydown', event => {
         removeRows()
      }
     }
+    if(event.key === 'ArrowUp'){
+      const rotate = []
+
+      for(let i = 0; i < piece.shape[0].length; i++){
+          const row = []
+          for(let j = piece.shape.length - 1; j >= 0; j--) {
+              row.push(piece.shape[j][i])
+          }
+        rotate.push(row)
+      }
+
+      const previousShape = piece.shape
+      piece.shape = rotate
+      if(colitions()){
+          piece.shape = previousShape
+      }
+    }
 })
 
 // colitions
@@ -132,6 +171,9 @@ function solidifyPieces() {
 
   piece.position.x = 6
   piece.position.y = 2
+
+  // random pieces
+  piece.shape = PIECES[Math.floor(Math.random() * PIECES.length)]
 
   if(colitions()){
     window.alert('Perdiste!!')
