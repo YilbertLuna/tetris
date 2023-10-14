@@ -2,10 +2,18 @@ import './style.css'
 
 const canvas = document.querySelector('canvas')
 const context = canvas.getContext('2d')
+const $score = document.getElementById('score')
+const $record = document.getElementById('record')
+
 
 const block_zise = 20
 const board_width = 14
 const board_heigth = 25
+
+let score = 0
+let record = 0
+
+localStorage.setItem('record', record)
 
 canvas.width = block_zise * board_width
 canvas.height = block_zise * board_heigth
@@ -123,6 +131,10 @@ function Draw() {
       }
     })
   })
+
+  $score.innerHTML = score
+  $record.innerHTML = localStorage.getItem('record')
+
 }
 
 
@@ -197,7 +209,14 @@ function solidifyPieces() {
 
   if(colitions()){
     window.alert('Perdiste!!')
-    map.forEach((row) => row.fill(0))  
+    map.forEach((row) => row.fill(0))
+
+    if(score > record){
+      record = score
+      localStorage.setItem('record', record)
+    }
+
+    score = 0
   }
   
 }
@@ -216,7 +235,9 @@ function removeRows() {
         map.splice(y, 1)
         const newRow = Array(board_width).fill(0)
         map.unshift(newRow)
+        score += 10
     })
+
 }
 
 upDate()
