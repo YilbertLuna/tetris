@@ -73,7 +73,27 @@ const PIECES = [
   ]
 ]
 
-function upDate() {
+
+let dropCounter = 0 
+let lasTime = 0
+
+function upDate(time = 0) {
+
+  const deltaTime = time - lasTime
+  lasTime = time 
+
+  dropCounter += deltaTime
+
+  if(dropCounter > 1000) {
+    piece.position.y++
+    dropCounter = 0
+
+    if(colitions()){
+      piece.position.y--
+      solidifyPieces()
+      removeRows()
+    }
+  }
 
   Draw()
 
