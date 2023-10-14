@@ -37,7 +37,7 @@ const map = [
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
   [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+  [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1],
 ]
 
 // create the piece
@@ -86,10 +86,75 @@ function Draw() {
 
 // pieces muvement
 document.addEventListener('keydown', event => {
-  if(event.key === 'ArrowLeft') piece.position.x--
-  if(event.key === 'ArrowRight') piece.position.x++
-  if(event.key === 'ArrowDown') piece.position.y++
+  if(event.key === 'ArrowLeft'){
+     piece.position.x--
+     if(colitions()) {
+        piece.position.x++
+     }
+    }
+  if(event.key === 'ArrowRight'){
+     piece.position.x++
+      if(colitions()) {
+        piece.position.x--
+     }
+    }
+  if(event.key === 'ArrowDown'){
+     piece.position.y++
+     if(colitions()) {
+        piece.position.y--
+        solidifyPieces()
+        removeRows()
+     }
+    }
 })
 
+// colitions
+function colitions() {
+  return piece.shape.find((row, y) =>{
+    return row.find((value, x) => {
+      return(
+        value !== 0 && 
+        map[ y + piece.position.y]?.[ x + piece.position.x] !== 0
+      )
+    })
+  })
+}
+
+// solid pieces
+function solidifyPieces() {
+  piece.shape.forEach((row, y) => {
+    row.forEach((value, x) => {
+      if(value === 1) {
+        map[ y + piece.position.y][ x + piece.position.x ] = 1
+      }
+    })
+  })
+
+  piece.position.x = 6
+  piece.position.y = 2
+
+  if(colitions()){
+    window.alert('Perdiste!!')
+    map.forEach((row) => row.fill(0))  
+  }
+  
+}
+
+// remove row
+function removeRows() {
+  const rowsToRemove = []
+
+    map.forEach((row, y) => {
+        if(row.every(value => value === 1)){
+            rowsToRemove.push(y)
+        }
+    })
+
+    rowsToRemove.forEach(y => {
+        map.splice(y, 1)
+        const newRow = Array(board_width).fill(0)
+        map.unshift(newRow)
+    })
+}
 
 upDate()
