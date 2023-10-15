@@ -179,6 +179,49 @@ document.addEventListener('keydown', event => {
     }
 })
 
+// pieces muvement for mobile
+
+document.getElementById('left').addEventListener('click', () => {
+  piece.position.x--
+  if(colitions()) {
+      piece.position.x++
+  }
+})
+
+document.getElementById('right').addEventListener('click', () => {
+  piece.position.x++
+    if(colitions()) {
+      piece.position.x--
+  }
+})
+
+document.getElementById('down').addEventListener('click', () => {
+  piece.position.y++
+  if(colitions()) {
+    piece.position.y--
+    solidifyPieces()
+    removeRows()
+ }
+})
+
+document.getElementById('rotate').addEventListener('click', () => {
+  const rotate = []
+
+    for(let i = 0; i < piece.shape[0].length; i++){
+        const row = []
+        for(let j = piece.shape.length - 1; j >= 0; j--) {
+            row.push(piece.shape[j][i])
+        }
+      rotate.push(row)
+    }
+
+    const previousShape = piece.shape
+    piece.shape = rotate
+    if(colitions()){
+        piece.shape = previousShape
+    }
+})
+
 // colitions
 function colitions() {
   return piece.shape.find((row, y) =>{

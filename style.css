@@ -40,4 +40,58 @@ p, p span{
   margin: 0;
   top: 0;
   font-size: larger;
+  font-family: monospace;
+}
+
+div.section_buttons_record{
+  display: flex;
+  flex-direction: column;
+}
+
+div.info_records{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 10px;
+  gap: 30px;
+}
+
+div.info_records p{
+  font-size: large;
+  font-family: monospace;
+}
+
+ div.buttons_mobile{
+  display: flex;
+  flex-direction: row;
+  gap: 60px;
+  justify-content: center;
+}
+
+div.buttons_mobile button{
+  background-color: #448636;
+  border: solid #448636;
+  border-radius: 100px;
+}
+div.buttons_mobile span.button_down_rotate{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+div.buttons_mobile span.button_left_right{
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+div.buttons_mobile span.button_down_rotate button#rotate, button#down{
+  width: 60px;
+  height: 60px;
+  align-items: center;
+}
+
+div.buttons_mobile span.button_left_right button#left, button#right{
+  width: 60px;
+  height: 90px;
 }
