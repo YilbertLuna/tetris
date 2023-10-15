@@ -22,7 +22,6 @@ function createMap(width, height) {
 let score = 0
 let record = 0
 
-localStorage.setItem('record', record)
 
 // create the piece
 const piece = {
