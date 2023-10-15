@@ -1,3 +1,4 @@
+import { PIECES, block_zise, board_heigth, board_width, eventMuvement } from './const.js'
 import './style.css'
 
 const canvas = document.querySelector('canvas')
@@ -6,47 +7,22 @@ const $score = document.getElementById('score')
 const $record = document.getElementById('record')
 
 
-const block_zise = 20
-const board_width = 14
-const board_heigth = 25
-
-let score = 0
-let record = 0
-
-localStorage.setItem('record', record)
 
 canvas.width = block_zise * board_width
 canvas.height = block_zise * board_heigth
 
 context.scale(block_zise, block_zise)
 
-const map = [
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-  [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-]
+const map = createMap(board_width, board_heigth)
+
+function createMap(width, height) {
+  return Array(height).fill().map(()=> Array(width).fill(0))
+}
+
+let score = 0
+let record = 0
+
+localStorage.setItem('record', record)
 
 // create the piece
 const piece = {
@@ -59,28 +35,8 @@ const piece = {
 
 }
 
-// create pieces
-
-const PIECES = [
-  [
-    [1, 1, 1, 1]
-  ],
-  [
-    [1, 0],
-    [1, 0],
-    [1, 1]
-  ],
-  [
-    [1, 0],
-    [1, 1],
-    [0, 1]
-  ],
-  [
-    [1, 1, 1],
-    [0, 1, 0]
-  ]
-]
-
+// call pieces
+PIECES
 
 let dropCounter = 0 
 let lasTime = 0
@@ -140,19 +96,19 @@ function Draw() {
 
 // pieces muvement
 document.addEventListener('keydown', event => {
-  if(event.key === 'ArrowLeft'){
+  if(event.key === eventMuvement.Left){
      piece.position.x--
      if(colitions()) {
         piece.position.x++
      }
     }
-  if(event.key === 'ArrowRight'){
+  if(event.key === eventMuvement.Rigth){
      piece.position.x++
       if(colitions()) {
         piece.position.x--
      }
     }
-  if(event.key === 'ArrowDown'){
+  if(event.key === eventMuvement.Down){
      piece.position.y++
      if(colitions()) {
         piece.position.y--
@@ -160,7 +116,7 @@ document.addEventListener('keydown', event => {
         removeRows()
      }
     }
-    if(event.key === 'ArrowUp'){
+    if(event.key === eventMuvement.Rotate){
       const rotate = []
 
       for(let i = 0; i < piece.shape[0].length; i++){
